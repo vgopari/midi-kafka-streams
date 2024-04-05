@@ -15,4 +15,10 @@ public class WebSocketController {
     public String handleMidiEvent(String message) {
         return message;
     }
+
+    @MessageMapping("/chord-events")
+    @SendTo("/topic/chord-events")
+    public String handleChordEvent(String message) {
+        return message;
+    }
 }

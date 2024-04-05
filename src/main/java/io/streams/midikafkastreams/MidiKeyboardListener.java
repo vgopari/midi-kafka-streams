@@ -34,7 +34,7 @@ public class MidiKeyboardListener implements Receiver {
 
     private final String inputTopic;
 
-    private String songId;
+    private String songId = "";
 
     private final Map<Integer, Boolean> noteStateMap; // Map to keep track of the state of each note
 

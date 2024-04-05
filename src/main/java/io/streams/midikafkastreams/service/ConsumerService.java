@@ -18,10 +18,17 @@ public class ConsumerService {
     }
 
     @KafkaListener(topics = "keyboard-midi-events", groupId = "my-consumer-group")
-    public void listen(ConsumerRecord<String, String> record) {
+    public void midiEventsListen(ConsumerRecord<String, String> record) {
         System.out.println("Received message: " + record.value());
         // Process the received message here
         messagingTemplate.convertAndSend("/topic/midi-events", record.value());
+    }
+
+    @KafkaListener(topics = "keyboard-chord-events", groupId = "my-consumer-group")
+    public void chordEventsListen(ConsumerRecord<String, String> record) {
+        System.out.println("Received message: " + record.value());
+        // Process the received message here
+        messagingTemplate.convertAndSend("/topic/chord-events", record.value());
     }
 
 }
