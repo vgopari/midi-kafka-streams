@@ -74,7 +74,7 @@ public class MidiKeyboardListener implements Receiver {
 
     @Override
     public void send(MidiMessage message, long timeStamp) {
-
+        
         if (isRecording && message instanceof ShortMessage sm) {
             int command = sm.getCommand();
             if (command == ShortMessage.NOTE_ON || command == ShortMessage.NOTE_OFF) {
@@ -87,6 +87,7 @@ public class MidiKeyboardListener implements Receiver {
                 // Create Keystroke object and send to Kafka
                 String noteName = getNoteName(noteNum);
                 long currentTimeStamp = System.nanoTime();
+                System.out.println(sm.getData2());
                 Keystroke keystroke = new Keystroke(eventType, noteName, velocity, noteNum, currentTimeStamp);
                 ProducerRecord<String, String> producerRecord = null;
                 if (!Objects.equals(songId, "")) {

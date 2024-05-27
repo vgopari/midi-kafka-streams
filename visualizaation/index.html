@@ -419,32 +419,32 @@
                         "Shawn Mendes - There's Nothing Holdin' Me Back": "Shawn Mendes - There's Nothing Holdin' Me Back.mid",
                         "The Chainsmokers & Coldplay - Something Just Like This": "The Chainsmokers & Coldplay - Something Just Like This.mid",
                     };
-                    // var gui = new dat.GUI({ width: 300 });
-                    // //gui.add(controls, 'key_attack_time', 2.0 , 40.0);
-                    // //gui.add(controls, 'key_max_rotation',0.2 , 1.0);                             
-                    // var song = gui.add(controls, 'song', songsToFiles);
-                    // var noteOnColorControl = gui.addColor(controls, 'noteOnColor');
-                    // noteOnColorControl.onChange(function (value) {
-                    //     noteOnColor = new THREE.Color().setRGB(controls.noteOnColor[0] / 256.0, controls.noteOnColor[1] / 256.0, controls.noteOnColor[2] / 256.0);
-                    // });
+                    var gui = new dat.GUI({ width: 300 });
+                     //gui.add(controls, 'key_attack_time', 2.0 , 40.0);
+                     //gui.add(controls, 'key_max_rotation',0.2 , 1.0);                             
+                     var song = gui.add(controls, 'song', songsToFiles);
+                     var noteOnColorControl = gui.addColor(controls, 'noteOnColor');
+                     noteOnColorControl.onChange(function (value) {
+                         noteOnColor = new THREE.Color().setRGB(controls.noteOnColor[0] / 256.0, controls.noteOnColor[1] / 256.0, controls.noteOnColor[2] / 256.0);
+                     });
 
-                    // song.onChange(function (value) {
-                    //     MIDI.Player.stop();
-                    //     MIDI.Player.loadFile("midi/" + value, MIDI.Player.start);
-                    // });
+                     song.onChange(function (value) {
+                         MIDI.Player.stop();
+                         MIDI.Player.loadFile("midi/" + value, MIDI.Player.start);
+                     });
 
-                    // // make sure to remove any key pressed when changing the octave
-                    // var octave = gui.add(controls, 'octave', 0, 4).step(1);
-                    // octave.onChange(function (value) {
-                    //     for (keyCode in keys_down) {
-                    //         var note = keyCode_to_note(keyCode);
-                    //         key_status("_" + note, keyState.note_off);
-                    //     }
+                     // make sure to remove any key pressed when changing the octave
+                     var octave = gui.add(controls, 'octave', 0, 4).step(1);
+                     octave.onChange(function (value) {
+                         for (keyCode in keys_down) {
+                             var note = keyCode_to_note(keyCode);
+                             key_status("_" + note, keyState.note_off);
+                         }
 
-                    // });
+                     });
 
-                    // gui.add(controls, 'play');
-                    // gui.add(controls, 'stop');
+                     gui.add(controls, 'play');
+                     gui.add(controls, 'stop');
                 });
             };
 
