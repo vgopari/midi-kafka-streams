@@ -335,11 +335,13 @@
 
                 if (keys_down[ev.keyCode] != true) {
                     var note = keyCode_to_note(ev.keyCode) - 3;
+                    
                     if (note != -1) {
                         key_status("_" + note, keyState.note_on);
                         keys_down[ev.keyCode] = true;
                         var delay = 0; // play one note every quarter second
                         var note = note + 24; // the MIDI note
+                        console.log(note);
                         var velocity = 127; // how hard the note hits
                         MIDI.setVolume(0, 127);
                         MIDI.noteOn(0, note, velocity, delay);

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Piano with Three.js</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        // Basic setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(0, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        // Piano body
+        const bodyGeometry = new THREE.BoxGeometry(22, 1, 2);
+        const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+        const pianoBody = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        pianoBody.position.y = 0.5;
+        scene.add(pianoBody);
+
+        // Keys
+        const whiteKeyGeometry = new THREE.BoxGeometry(0.2, 0.1, 1);
+        const whiteKeyMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+        const blackKeyGeometry = new THREE.BoxGeometry(0.1, 0.1, 0.6);
+        const blackKeyMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+
+        const keys = [];
+        const blackKeyPositions = [1, 3, 6, 8, 10]; // Positions for black keys in one octave
+
+        for (let i = 0; i < 88; i++) {
+            const whiteKey = new THREE.Mesh(whiteKeyGeometry, whiteKeyMaterial);
+            whiteKey.position.set(-8.7 + i * 0.22, 1.05, 0);
+            scene.add(whiteKey);
+            keys.push(whiteKey);
+
+            if (blackKeyPositions.includes(i % 12)) {
+                const blackKey = new THREE.Mesh(blackKeyGeometry, blackKeyMaterial);
+                blackKey.position.set(-8.6 + i * 0.22, 1.1, 0.3);
+                scene.add(blackKey);
+                keys.push(blackKey);
+            }
+        }
+
+        // Camera position
+        camera.position.set(5.9, 16, 14);
+        camera.lookAt(0, 1, 0);
+
+        // Animation function
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Interaction
+        function onKeyPress(event) {
+            const keyIndex = event.keyCode - 65; // Assuming 'A' key starts at index 0
+            if (keyIndex >= 0 && keyIndex < keys.length) {
+                const key = keys[keyIndex];
+                gsap.to(key.position, { y: key.position.y - 0.1, duration: 0.1, yoyo: true, repeat: 1 });
+            }
+        }
+
+        window.addEventListener('keydown', onKeyPress);
+    </script>
+</body>
+</html>
